@@ -8,6 +8,8 @@ public class swapDimensions : MonoBehaviour {
     private bool warpsuccess = true;
     public GameObject goggle1;
     public GameObject goggle2;
+    public GameObject player1;
+    public GameObject player2;
 
 
 	// Use this for initialization
@@ -34,16 +36,17 @@ public class swapDimensions : MonoBehaviour {
         if(Input.GetButton("Fire3"))
         {
             if (dim1 && !warpsuccess)
-            {
-                //disable dimension 1
-                transform.Find("Player_d1").gameObject.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
-                transform.Find("Player_d1").gameObject.GetComponent<CapsuleCollider>().enabled = false;
-                //transform.Find("Player_d1").gameObject.GetComponent<characterControllerD1>().enabled = false;
-
+            {         
                 // enable dimension 2
-                transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
-                transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = true;
-                //transform.Find("Player_d2").gameObject.GetComponent<characterControllerD2>().enabled = true;
+                player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
+                player2.GetComponent<CapsuleCollider>().enabled = true;
+                player2.GetComponent<Rigidbody>().WakeUp();
+
+
+                //disable dimension 1
+                player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
+                player1.GetComponent<CapsuleCollider>().enabled = false;
+                player1.GetComponent<Rigidbody>().Sleep();
 
                 // give velocity to player in dim2
                 transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity;
@@ -58,15 +61,15 @@ public class swapDimensions : MonoBehaviour {
             }
             else if(!dim1 && !warpsuccess)
             {
+                // enable dimension 1
+                player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
+                player1.GetComponent<CapsuleCollider>().enabled = true;
+                player1.GetComponent<Rigidbody>().WakeUp();
+
                 // disable dimension 2
                 transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
                 transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
-                //transform.Find("Player_d2").gameObject.GetComponent<characterControllerD2>().enabled = false;
-
-                // enable dimension 1
-                transform.Find("Player_d1").gameObject.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
-                transform.Find("Player_d1").gameObject.GetComponent<CapsuleCollider>().enabled = true;
-                //transform.Find("Player_d1").gameObject.GetComponent<characterControllerD1>().enabled = true;
+                player2.GetComponent<Rigidbody>().Sleep();
 
                 // give velocity to player in dim2
                 transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
