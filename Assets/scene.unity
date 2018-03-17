@@ -736,6 +736,8 @@ MonoBehaviour:
   goggle2: {fileID: 1430858648}
   player1: {fileID: 1441939885}
   player2: {fileID: 1793290776}
+  warpSensor1: {fileID: 933281299}
+  warpSensor2: {fileID: 568041478}
 --- !u!1 &933281299
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,7 +1236,7 @@ MonoBehaviour:
   groundedLastFrame: 0
   jumpLastFrame: 0
   jumpVelocity: 300
-  dimension_gap: 100.5
+  dimension_gap: 101
   shadowplayer: {fileID: 1793290776}
   rb: {fileID: 1441939890}
 --- !u!4 &1441939889
@@ -1448,7 +1450,7 @@ MonoBehaviour:
   groundedLastFrame: 0
   jumpLastFrame: 0
   jumpVelocity: 300
-  dimension_gap: -99.5
+  dimension_gap: -99
   shadowplayer: {fileID: 1441939885}
   rb: {fileID: 1793290779}
 --- !u!1 &1893607290

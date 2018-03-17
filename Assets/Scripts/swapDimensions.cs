@@ -10,6 +10,10 @@ public class swapDimensions : MonoBehaviour {
     public GameObject goggle2;
     public GameObject player1;
     public GameObject player2;
+    public GameObject warpSensor1;
+    public GameObject warpSensor2;
+    private warpSensor sensor1;
+    private warpSensor sensor2;
 
 
 	// Use this for initialization
@@ -18,6 +22,9 @@ public class swapDimensions : MonoBehaviour {
         transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
         transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
         //transform.Find("Player_d2").gameObject.GetComponent<characterControllerD2>().enabled = false;
+
+        sensor1 = warpSensor1.GetComponent<warpSensor>();
+        sensor2 = warpSensor2.GetComponent<warpSensor>();
     }
 	
 	// Update is called once per frame
@@ -35,18 +42,19 @@ public class swapDimensions : MonoBehaviour {
 
         if(Input.GetButton("Fire3"))
         {
-            if (dim1 && !warpsuccess)
+            if (dim1 && !warpsuccess && CanWarp())
             {         
                 // enable dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
                 player2.GetComponent<CapsuleCollider>().enabled = true;
-                player2.GetComponent<Rigidbody>().WakeUp();
+                //player2.GetComponent<Rigidbody>().WakeUp();
+                //player2.GetComponent<Rigidbody>().velocity = player1.GetComponent<Rigidbody>().velocity;
 
 
                 //disable dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
                 player1.GetComponent<CapsuleCollider>().enabled = false;
-                player1.GetComponent<Rigidbody>().Sleep();
+                //player1.GetComponent<Rigidbody>().Sleep();
 
                 // give velocity to player in dim2
                 transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity;
@@ -59,19 +67,20 @@ public class swapDimensions : MonoBehaviour {
                 warpsuccess = true;
 
             }
-            else if(!dim1 && !warpsuccess)
+            else if(!dim1 && !warpsuccess && CanWarp())
             {
                 // enable dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
                 player1.GetComponent<CapsuleCollider>().enabled = true;
-                player1.GetComponent<Rigidbody>().WakeUp();
+                //player1.GetComponent<Rigidbody>().WakeUp();
+                //player1.GetComponent<Rigidbody>().velocity = player2.GetComponent<Rigidbody>().velocity;
 
                 // disable dimension 2
                 transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
                 transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
-                player2.GetComponent<Rigidbody>().Sleep();
+                //player2.GetComponent<Rigidbody>().Sleep();
 
-                // give velocity to player in dim2
+                // give velocity to player in dim1
                 transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
 
                 //turn off goggles
@@ -83,7 +92,7 @@ public class swapDimensions : MonoBehaviour {
             }
         }
 
-            if (Input.GetButton("Fire2"))
+        if (Input.GetButton("Fire2"))
         {
             //show player a view into the other dimension
             if(dim1)
@@ -107,12 +116,13 @@ public class swapDimensions : MonoBehaviour {
 
     private bool CanWarp()
     {
+
         //check to see if the sensor is active in the other dimension
-        if(dim1 && transform.Find("Player_d2").gameObject.transform.Find("WarpSensor2").GetComponent<warpSensor>().canwarp)
+        if(dim1 && sensor2.canwarp)
         {
             return true;
         }
-        if(!dim1 && transform.Find("Player_d1").gameObject.transform.Find("WarpSensor1").GetComponent<warpSensor>().canwarp)
+        if(!dim1 && sensor1.canwarp)
         {
             return true;
         }
