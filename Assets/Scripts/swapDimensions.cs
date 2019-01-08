@@ -14,10 +14,19 @@ public class swapDimensions : MonoBehaviour {
     public GameObject warpSensor2;
     private warpSensor sensor1;
     private warpSensor sensor2;
+    private Vector3 oldPosition;
+    public float shrinkScale;
+    private Vector3 shrunkSize;
+    private Vector3 fullSize;
+    private bool shouldResize1 = false;
+    private bool shouldResize2 = false;
+    private float startResize1 = 0;
+    private float startResize2 = 0;
+    public float resizeTime;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         //disable camera, collider, and movement of d2
         transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
         transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
@@ -25,6 +34,11 @@ public class swapDimensions : MonoBehaviour {
 
         sensor1 = warpSensor1.GetComponent<warpSensor>();
         sensor2 = warpSensor2.GetComponent<warpSensor>();
+        player2.GetComponent<Rigidbody>().Sleep();
+
+        fullSize = player1.transform.localScale;
+        shrunkSize = player1.transform.localScale - new Vector3(shrinkScale, shrinkScale, shrinkScale);
+
     }
 	
 	// Update is called once per frame
@@ -43,21 +57,36 @@ public class swapDimensions : MonoBehaviour {
         if(Input.GetButton("Fire3"))
         {
             if (dim1 && !warpsuccess && CanWarp())
-            {         
-                // enable dimension 2
+            {
+                //save current location of player
+                //oldPosition = player1.transform.position;
+                // move to dimension 2
+                //player1.transform.position = player2.transform.position;
+                //player2.transform.position = oldPosition;
+
+                // invert the gap between players
+                //player1.GetComponent<characterControl>().dimension_xgap *= -1;
+                //player1.GetComponent<characterControl>().dimension_ygap *= -1;
+
+                // move to dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
                 player2.GetComponent<CapsuleCollider>().enabled = true;
-                //player2.GetComponent<Rigidbody>().WakeUp();
-                //player2.GetComponent<Rigidbody>().velocity = player1.GetComponent<Rigidbody>().velocity;
+                player2.GetComponent<Rigidbody>().WakeUp();
+                player2.GetComponent<Rigidbody>().velocity = player1.GetComponent<Rigidbody>().velocity;
 
-
-                //disable dimension 1
+                // disable dimension 2
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
                 player1.GetComponent<CapsuleCollider>().enabled = false;
-                //player1.GetComponent<Rigidbody>().Sleep();
+                player2.GetComponent<Rigidbody>().Sleep();
 
-                // give velocity to player in dim2
-                transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity;
+                // give velocity to player in dim1
+                //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
+
+                //shrink player model
+                player2.transform.localScale = shrunkSize;
+                player2.transform.position += new Vector3(0, 0.5f, 0);
+                shouldResize2 = true;
+                startResize2 = Time.time;
 
                 //turn off goggles
                 goggle1.GetComponent<Renderer>().enabled = false;
@@ -69,23 +98,35 @@ public class swapDimensions : MonoBehaviour {
             }
             else if(!dim1 && !warpsuccess && CanWarp())
             {
-                // enable dimension 1
+                //save current location of player
+                //oldPosition = transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().position;
+                // move to dimension 1
+                //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().position = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().position;
+                //transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().position = oldPosition;
+
+                // move to dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
                 player1.GetComponent<CapsuleCollider>().enabled = true;
-                //player1.GetComponent<Rigidbody>().WakeUp();
-                //player1.GetComponent<Rigidbody>().velocity = player2.GetComponent<Rigidbody>().velocity;
+                player1.GetComponent<Rigidbody>().WakeUp();
+                player1.GetComponent<Rigidbody>().velocity = player2.GetComponent<Rigidbody>().velocity;
 
                 // disable dimension 2
-                transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
-                transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
-                //player2.GetComponent<Rigidbody>().Sleep();
+                player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
+                player2.GetComponent<CapsuleCollider>().enabled = false;
+                player2.GetComponent<Rigidbody>().Sleep();
 
                 // give velocity to player in dim1
-                transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
+                //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
 
                 //turn off goggles
                 goggle1.GetComponent<Renderer>().enabled = false;
                 goggle2.GetComponent<Renderer>().enabled = false;
+
+                //shrink player model
+                player1.transform.localScale = shrunkSize;
+                player1.transform.position += new Vector3(0, 0.8f, 0);
+                shouldResize1 = true;
+                startResize1 = Time.time;
 
                 dim1 = true;
                 warpsuccess = true;
@@ -95,12 +136,19 @@ public class swapDimensions : MonoBehaviour {
         if (Input.GetButton("Fire2"))
         {
             //show player a view into the other dimension
-            if(dim1)
+
+            if(dim1 && CanWarp())
             {
                 goggle1.GetComponent<Renderer>().enabled = true;
-            } else
+            } else if(!dim1 && CanWarp())
             {
                 goggle2.GetComponent<Renderer>().enabled = true;
+            }
+
+            if(!CanWarp())
+            {
+                goggle1.GetComponent<Renderer>().enabled = false;
+                goggle2.GetComponent<Renderer>().enabled = false;
             }
 
         }
@@ -109,6 +157,32 @@ public class swapDimensions : MonoBehaviour {
         {
             goggle1.GetComponent<Renderer>().enabled = false;
             goggle2.GetComponent<Renderer>().enabled = false;
+        }
+
+        if (shouldResize1)
+        {
+            if(Time.time - startResize1 > resizeTime)
+            {
+                shouldResize1 = false;
+                player1.transform.localScale = fullSize;
+            }
+            else
+            {
+                player1.transform.localScale = Resize(shrunkSize, fullSize, startResize1, resizeTime);
+            }
+        }
+
+        if (shouldResize2)
+        {
+            if (Time.time - startResize2 > resizeTime)
+            {
+                shouldResize2 = false;
+                player1.transform.localScale = fullSize;
+            }
+            else
+            {
+                player2.transform.localScale = Resize(shrunkSize, fullSize, startResize2, resizeTime);
+            }
         }
 
 
@@ -128,5 +202,14 @@ public class swapDimensions : MonoBehaviour {
         }
 
         return false;
+    }
+
+    public Vector3 Resize(Vector3 startSize, Vector3 endSize, float timeStartedLerping, float lerpTime)
+    {
+        float timeSinceStarted = Time.time - timeStartedLerping;
+        float percentageComplete = timeSinceStarted / lerpTime;
+        var result = Vector3.Lerp(startSize, endSize, percentageComplete);
+
+        return result;
     }
 }

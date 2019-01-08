@@ -11,7 +11,8 @@ public class characterControl : MonoBehaviour {
     public bool groundedLastFrame = false;
     public bool jumpLastFrame = false;
     public float jumpVelocity = 200.0f;
-    public float dimension_gap;
+    public float dimension_ygap;
+    public float dimension_xgap;
     public GameObject shadowplayer;
     public Rigidbody rb;
 
@@ -58,7 +59,7 @@ public class characterControl : MonoBehaviour {
         //set the location of the object in other dimension
         if (GetComponent<CapsuleCollider>().enabled)
         {
-            shadowplayer.transform.position = new Vector3(transform.position.x, transform.position.y + dimension_gap, transform.position.z);
+            shadowplayer.transform.position = new Vector3(transform.position.x + dimension_xgap, transform.position.y + dimension_ygap, transform.position.z);
         }
 
         if (Input.GetKeyDown("escape"))
