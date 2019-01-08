@@ -15,6 +15,9 @@ public class characterControl : MonoBehaviour {
     public float dimension_xgap;
     public GameObject shadowplayer;
     public Rigidbody rb;
+    public Vector3 originalAirSpeed;
+    public float airChangeLimit;
+    
 
 	// Use this for initialization
 	void Start () {
@@ -48,8 +51,16 @@ public class characterControl : MonoBehaviour {
             }
 
             //if we won't move too fast, apply a small force to our movement in air
-
+	    Vector3 currentSpeed = rb.velocity;
             rb.AddRelativeForce(new Vector3(straffe * airmodifier, 0, translation * airmodifier), ForceMode.Acceleration);
+	    if(Mathf.Abs(rb.velocity.x - originalAirSpeed.x) > airChangeLimit)
+	    {
+		rb.velocity.x = originalAirSpeed.x;
+	    }
+	    if(Mathf.Abs(rb.velocity.z - originalAirSpeed.z) > airChangeLimit)
+	    {
+		rb.velocity.z = originalAirSpeed.z;
+	    }
 
 
             groundedLastFrame = false;
@@ -68,6 +79,7 @@ public class characterControl : MonoBehaviour {
         if (Input.GetButtonDown("Jump") && grounded) {
             this.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpVelocity);
             jumpLastFrame = true;
+	    originalAirSpeed = rb.velocity;
         }
     }
 
