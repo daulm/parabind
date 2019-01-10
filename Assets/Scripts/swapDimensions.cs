@@ -23,6 +23,7 @@ public class swapDimensions : MonoBehaviour {
     private float startResize1 = 0;
     private float startResize2 = 0;
     public float resizeTime;
+    public float liftHeight = 0.8f;
 
 
     // Use this for initialization
@@ -68,6 +69,12 @@ public class swapDimensions : MonoBehaviour {
                 //player1.GetComponent<characterControl>().dimension_xgap *= -1;
                 //player1.GetComponent<characterControl>().dimension_ygap *= -1;
 
+                //shrink player model
+                player2.transform.localScale = shrunkSize;
+                player2.transform.position += new Vector3(0, liftHeight, 0);
+                shouldResize2 = true;
+                startResize2 = Time.time;
+
                 // move to dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
                 player2.GetComponent<CapsuleCollider>().enabled = true;
@@ -81,12 +88,6 @@ public class swapDimensions : MonoBehaviour {
 
                 // give velocity to player in dim1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
-
-                //shrink player model
-                player2.transform.localScale = shrunkSize;
-                player2.transform.position += new Vector3(0, 0.5f, 0);
-                shouldResize2 = true;
-                startResize2 = Time.time;
 
                 //turn off goggles
                 goggle1.GetComponent<Renderer>().enabled = false;
@@ -103,6 +104,12 @@ public class swapDimensions : MonoBehaviour {
                 // move to dimension 1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().position = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().position;
                 //transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().position = oldPosition;
+
+                //shrink player model
+                player1.transform.localScale = shrunkSize;
+                player1.transform.position += new Vector3(0, liftHeight, 0);
+                shouldResize1 = true;
+                startResize1 = Time.time;
 
                 // move to dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
@@ -121,12 +128,6 @@ public class swapDimensions : MonoBehaviour {
                 //turn off goggles
                 goggle1.GetComponent<Renderer>().enabled = false;
                 goggle2.GetComponent<Renderer>().enabled = false;
-
-                //shrink player model
-                player1.transform.localScale = shrunkSize;
-                player1.transform.position += new Vector3(0, 0.8f, 0);
-                shouldResize1 = true;
-                startResize1 = Time.time;
 
                 dim1 = true;
                 warpsuccess = true;

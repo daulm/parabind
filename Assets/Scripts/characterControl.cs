@@ -15,14 +15,20 @@ public class characterControl : MonoBehaviour {
     public float dimension_xgap;
     public GameObject shadowplayer;
     public Rigidbody rb;
+    public GameObject warpSensor;
+    private warpSensor sensor;
     public Vector3 originalAirSpeed;
     public float airChangeLimit;
-    
+    private Vector3 moveDirection = Vector3.zero;
+    private CharacterController controller;
 
-	// Use this for initialization
-	void Start () {
+
+    // Use this for initialization
+    void Start () {
         Cursor.lockState = CursorLockMode.Locked;
-	}
+        sensor = warpSensor.GetComponent<warpSensor>();
+        controller = GetComponent<CharacterController>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -52,15 +58,15 @@ public class characterControl : MonoBehaviour {
 
             //if we won't move too fast, apply a small force to our movement in air
 	    Vector3 currentSpeed = rb.velocity;
-            rb.AddRelativeForce(new Vector3(straffe * airmodifier, 0, translation * airmodifier), ForceMode.Acceleration);
+        rb.AddRelativeForce(new Vector3(straffe * airmodifier, 0, translation * airmodifier), ForceMode.Acceleration);
 	    if(Mathf.Abs(rb.velocity.x - originalAirSpeed.x) > airChangeLimit)
 	    {
-		rb.velocity.x = originalAirSpeed.x;
+		    rb.velocity = new Vector3(originalAirSpeed.x, rb.velocity.y, rb.velocity.z);
 	    }
 	    if(Mathf.Abs(rb.velocity.z - originalAirSpeed.z) > airChangeLimit)
 	    {
-		rb.velocity.z = originalAirSpeed.z;
-	    }
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, originalAirSpeed.z);
+            }
 
 
             groundedLastFrame = false;
@@ -70,7 +76,12 @@ public class characterControl : MonoBehaviour {
         //set the location of the object in other dimension
         if (GetComponent<CapsuleCollider>().enabled)
         {
-            shadowplayer.transform.position = new Vector3(transform.position.x + dimension_xgap, transform.position.y + dimension_ygap, transform.position.z);
+            shadowplayer.transform.position = new Vector3(transform.position.x + dimension_xgap, transform.position.y + dimension_ygap+0.1f, transform.position.z);
+            //if the warp sensor is active we have fallen through the floor and should be bounced back above ground
+            if (!sensor.canwarp)
+            {
+                transform.position = new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z);
+            }
         }
 
         if (Input.GetKeyDown("escape"))
