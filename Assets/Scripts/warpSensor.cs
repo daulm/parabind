@@ -7,11 +7,11 @@ public class warpSensor : MonoBehaviour {
     public bool canwarp;
     public float data;
     
+    
 
     // Use this for initialization
     void Start () {
         canwarp = true;
-
     }
 	
 	// Update is called once per frame

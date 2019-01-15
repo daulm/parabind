@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 568041482}
   - component: {fileID: 568041481}
   - component: {fileID: 568041480}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WarpSensor2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1361,7 +1361,7 @@ GameObject:
   - component: {fileID: 933281303}
   - component: {fileID: 933281302}
   - component: {fileID: 933281301}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: WarpSensor1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2119,15 +2119,33 @@ GameObject:
   m_Component:
   - component: {fileID: 1441939889}
   - component: {fileID: 1441939887}
-  - component: {fileID: 1441939890}
   - component: {fileID: 1441939891}
-  m_Layer: 0
+  - component: {fileID: 1441939886}
+  m_Layer: 8
   m_Name: Player_d1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!143 &1441939886
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441939885}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1441939887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2140,20 +2158,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3645ba09a0bb002419d437bcfd0e2b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
-  airmodifier: 1
+  speed: 20
+  airmodifier: 0.4
   maxSlope: 60
   grounded: 0
   groundedLastFrame: 0
   jumpLastFrame: 0
-  jumpVelocity: 300
+  jumpVelocity: 10
   dimension_ygap: 0
   dimension_xgap: 1000
   shadowplayer: {fileID: 1793290776}
-  rb: {fileID: 1441939890}
   warpSensor: {fileID: 933281299}
-  originalAirSpeed: {x: 0, y: 0, z: 0}
-  airChangeLimit: 5
+  antiBumpFactor: 0.75
+  gravity: 20
+  crouchHeight: 0.5
+  isActive: 1
 --- !u!4 &1441939889
 Transform:
   m_ObjectHideFlags: 0
@@ -2171,22 +2190,6 @@ Transform:
   m_Father: {fileID: 851703346}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &1441939890
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1441939885}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
 --- !u!136 &1441939891
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2651,10 +2654,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1793290777}
-  - component: {fileID: 1793290779}
   - component: {fileID: 1793290778}
   - component: {fileID: 1793290780}
-  m_Layer: 0
+  - component: {fileID: 1793290779}
+  m_Layer: 8
   m_Name: Player_d2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2669,7 +2672,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793290776}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 100.05, z: 0}
+  m_LocalPosition: {x: 1000, y: 0.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1171730995}
@@ -2691,22 +2694,24 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
---- !u!54 &1793290779
-Rigidbody:
+--- !u!143 &1793290779
+CharacterController:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1793290776}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
   serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 1
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1793290780
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2719,20 +2724,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3645ba09a0bb002419d437bcfd0e2b85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 300
-  airmodifier: 1
+  speed: 20
+  airmodifier: 0.4
   maxSlope: 60
   grounded: 0
   groundedLastFrame: 0
   jumpLastFrame: 0
-  jumpVelocity: 300
+  jumpVelocity: 10
   dimension_ygap: 0
   dimension_xgap: -1000
   shadowplayer: {fileID: 1441939885}
-  rb: {fileID: 1793290779}
   warpSensor: {fileID: 568041478}
-  originalAirSpeed: {x: 0, y: 0, z: 0}
-  airChangeLimit: 5
+  antiBumpFactor: 0.75
+  gravity: 20
+  crouchHeight: 0.5
+  isActive: 1
 --- !u!1 &1898890164
 GameObject:
   m_ObjectHideFlags: 0

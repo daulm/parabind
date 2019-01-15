@@ -30,12 +30,13 @@ public class swapDimensions : MonoBehaviour {
     void Start () {
         //disable camera, collider, and movement of d2
         transform.Find("Player_d2").gameObject.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
-        transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().enabled = false;
+        //transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().layer = 8;
         //transform.Find("Player_d2").gameObject.GetComponent<characterControllerD2>().enabled = false;
+        player2.GetComponent<characterControl>().isActive = false;
 
         sensor1 = warpSensor1.GetComponent<warpSensor>();
         sensor2 = warpSensor2.GetComponent<warpSensor>();
-        player2.GetComponent<Rigidbody>().Sleep();
+        //player2.GetComponent<Rigidbody>().Sleep();
 
         fullSize = player1.transform.localScale;
         shrunkSize = player1.transform.localScale - new Vector3(shrinkScale, shrinkScale, shrinkScale);
@@ -45,17 +46,17 @@ public class swapDimensions : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (Input.GetButtonDown("Fire3"))
+        if (Input.GetButtonDown("Warp"))
         {
             warpsuccess = false;
         }
 
-        if (Input.GetButtonUp("Fire3"))
+        if (Input.GetButtonUp("Warp"))
         {
             warpsuccess = true;
         }
 
-        if(Input.GetButton("Fire3"))
+        if(Input.GetButton("Warp"))
         {
             if (dim1 && !warpsuccess && CanWarp())
             {
@@ -77,14 +78,17 @@ public class swapDimensions : MonoBehaviour {
 
                 // move to dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
-                player2.GetComponent<CapsuleCollider>().enabled = true;
-                player2.GetComponent<Rigidbody>().WakeUp();
-                player2.GetComponent<Rigidbody>().velocity = player1.GetComponent<Rigidbody>().velocity;
+                player2.GetComponent<characterControl>().isActive = true;
+                //player2.GetComponent<CapsuleCollider>().enabled = true;
+                //player2.GetComponent<CharacterController>().enabled = true;
+                
 
                 // disable dimension 2
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
-                player1.GetComponent<CapsuleCollider>().enabled = false;
-                player2.GetComponent<Rigidbody>().Sleep();
+                player1.GetComponent<characterControl>().isActive = false;
+                //player1.GetComponent<CapsuleCollider>().enabled = false;
+                //player1.GetComponent<CharacterController>().enabled = false;
+                
 
                 // give velocity to player in dim1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
@@ -113,14 +117,17 @@ public class swapDimensions : MonoBehaviour {
 
                 // move to dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
-                player1.GetComponent<CapsuleCollider>().enabled = true;
-                player1.GetComponent<Rigidbody>().WakeUp();
-                player1.GetComponent<Rigidbody>().velocity = player2.GetComponent<Rigidbody>().velocity;
+                player1.GetComponent<characterControl>().isActive = true;
+                //player1.GetComponent<CapsuleCollider>().enabled = true;
+                //player1.GetComponent<CharacterController>().enabled = true;
+                
 
                 // disable dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
-                player2.GetComponent<CapsuleCollider>().enabled = false;
-                player2.GetComponent<Rigidbody>().Sleep();
+                player2.GetComponent<characterControl>().isActive = false;
+                //player2.GetComponent<CapsuleCollider>().enabled = false;
+                //player2.GetComponent<CharacterController>().enabled = false;
+                
 
                 // give velocity to player in dim1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
