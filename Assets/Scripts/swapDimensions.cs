@@ -33,6 +33,7 @@ public class swapDimensions : MonoBehaviour {
         //transform.Find("Player_d2").gameObject.GetComponent<CapsuleCollider>().layer = 8;
         //transform.Find("Player_d2").gameObject.GetComponent<characterControllerD2>().enabled = false;
         player2.GetComponent<characterControl>().isActive = false;
+        Physics.IgnoreLayerCollision(0, 9, true);
 
         sensor1 = warpSensor1.GetComponent<warpSensor>();
         sensor2 = warpSensor2.GetComponent<warpSensor>();
@@ -79,16 +80,18 @@ public class swapDimensions : MonoBehaviour {
                 // move to dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = true;
                 player2.GetComponent<characterControl>().isActive = true;
+                Physics.IgnoreLayerCollision(0, 9, false);
                 //player2.GetComponent<CapsuleCollider>().enabled = true;
                 //player2.GetComponent<CharacterController>().enabled = true;
-                
 
-                // disable dimension 2
+
+                // disable dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = false;
                 player1.GetComponent<characterControl>().isActive = false;
+                Physics.IgnoreLayerCollision(0, 8, true);
                 //player1.GetComponent<CapsuleCollider>().enabled = false;
                 //player1.GetComponent<CharacterController>().enabled = false;
-                
+
 
                 // give velocity to player in dim1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;
@@ -118,16 +121,18 @@ public class swapDimensions : MonoBehaviour {
                 // move to dimension 1
                 player1.transform.Find("Camera_d1").gameObject.GetComponent<Camera>().enabled = true;
                 player1.GetComponent<characterControl>().isActive = true;
+                Physics.IgnoreLayerCollision(0, 8, false);
                 //player1.GetComponent<CapsuleCollider>().enabled = true;
                 //player1.GetComponent<CharacterController>().enabled = true;
-                
+
 
                 // disable dimension 2
                 player2.transform.Find("Camera_d2").gameObject.GetComponent<Camera>().enabled = false;
                 player2.GetComponent<characterControl>().isActive = false;
+                Physics.IgnoreLayerCollision(0, 9, true);
                 //player2.GetComponent<CapsuleCollider>().enabled = false;
                 //player2.GetComponent<CharacterController>().enabled = false;
-                
+
 
                 // give velocity to player in dim1
                 //transform.Find("Player_d1").gameObject.GetComponent<Rigidbody>().velocity = transform.Find("Player_d2").gameObject.GetComponent<Rigidbody>().velocity;

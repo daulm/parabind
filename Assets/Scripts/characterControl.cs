@@ -115,12 +115,12 @@ public class characterControl : MonoBehaviour {
         // Apply gravity
         moveVector.y -= gravity * Time.deltaTime;
 
-        //apply the move vector
-        controller.Move(moveVector * Time.deltaTime);
-
-        //set the location of the object in other dimension
+        
         if (isActive)
         {
+            //apply the move vector
+            controller.Move(moveVector * Time.deltaTime);
+            //set the location of the object in other dimension
             shadowplayer.transform.position = new Vector3(transform.position.x + dimension_xgap, transform.position.y + dimension_ygap + 0.1f, transform.position.z);
             /*if the warp sensor is active we have fallen through the floor and should be bounced back above ground
             if (!sensor.canwarp)
