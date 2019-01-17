@@ -26,7 +26,7 @@ public class characterControl : MonoBehaviour {
     private float antiBumpFactor = .75f;
     [SerializeField]
     private float gravity = 20.0f;
-    public float crouchHeight = 0.5f;
+    public float crouchAmmount = 0.8f;
     public bool isActive = true;
     
 
@@ -131,14 +131,22 @@ public class characterControl : MonoBehaviour {
 
         if (Input.GetButtonDown("Crouch"))
         {
-            transform.localScale = new Vector3(1, crouchHeight, 1);
+            	//transform.localScale = new Vector3(1, crouchHeight, 1);
+	    	this.GetComponent<CharacterController>().height -= crouchAmmount;
+	    	transform.Find("Camera_d1").gameObject.transform.localPosition.y -= crouchAmmount;
+		transform.Find("Camera_d2").gameObject.transform.localPosition.y -= crouchAmmount;
+	
+	    
 
 
         }
 
         if (Input.GetButtonUp("Crouch"))
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            //transform.localScale = new Vector3(1, 1, 1);
+		this.GetComponent<CharacterController>().height += crouchAmmount;
+		transform.Find("Camera_d1").gameObject.transform.localPosition.y += crouchAmmount;
+		transform.Find("Camera_d2").gameObject.transform.localPosition.y += crouchAmmount;
         }
 
         if (Input.GetKeyDown("escape"))
